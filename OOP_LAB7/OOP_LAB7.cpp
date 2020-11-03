@@ -1,5 +1,11 @@
-﻿#include <iostream>
+﻿#define _USE_MATH_DEFINES
+#include <iostream>
 #include <cmath>
+
+//#define pi M_PI ;
+//#define pi_2 M_PI_2;
+//#define  pi_4 M_PI_4;
+
 class TransException:public std::exception {
 public:
 	TransException(std::string error):m_error(error) {
@@ -36,10 +42,18 @@ double Trans::Cos(double angle) {
 }
 
 double Trans::Tan(double angle) {
-
+	double tt = angle / M_PI_2;
+	std::cout << tt << std::endl;
+	if (fabs(angle/M_PI_2 - round(angle/M_PI_2)) < 1e-16){
+		std::cout << "bad";
+	}
+	double result = tan(angle);
+	return result;
 }
 
 int main()
 {
-    std::cout << "Hello World!\n";
+	Trans k;
+	std::cout << tan(M_PI_2) << std::endl;
+	std::cout << k.Tan(M_PI_2*4) << std::endl;
 }
