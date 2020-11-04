@@ -1,6 +1,7 @@
 ﻿#define _USE_MATH_DEFINES
 #include <iostream>
 #include <cmath>
+#include <typeinfo>
 
 //#define pi M_PI ;
 //#define pi_2 M_PI_2;
@@ -23,6 +24,10 @@ public:
 	double Sin(double);
 	double Cos(double);
 	double Tan(double);
+	double Asin(double);
+	double Acos(double);
+	double Atan(double);
+	double Ln(double);
 private:
 
 };
@@ -30,30 +35,61 @@ private:
 double Trans::Sin(double angle) {
 	double result = sin(angle);
 	if (result > 1 || result < 1) {
-		throw TransException("Sin is going beyond limit values");
+		throw TransException("Result error");
 	}
 }
 
 double Trans::Cos(double angle) {
 	double result = Cos(angle);
 	if (result > 1 || result < 1) {
-		throw TransException("Cos is going beyond limit values");
+		throw TransException("Result error");
 	}
 }
 
 double Trans::Tan(double angle) {
-	double tt = angle / M_PI_2;
-	std::cout << tt << std::endl;
-	if (fabs(angle/M_PI_2 - round(angle/M_PI_2)) < 1e-16){
-		std::cout << "bad";
+	if (angle > 2*M_PI || angle < 0) {
+		throw TransException("Invalid argument");
+	}
+	if (angle == M_PI_2 || angle == 3 * M_PI_2) {
+		throw TransException("Invalid argument");
 	}
 	double result = tan(angle);
 	return result;
 }
 
+double Trans::Asin(double arg) {
+	if (arg > 1 || arg < -1) {
+		throw TransException("Invalid argument");
+	}
+	return asin(arg);
+}
+
+double Trans::Acos(double arg) {
+	if (arg > 1 || arg < -1) {
+		throw TransException("Invalid argument");
+	}
+	
+	return acos(arg);
+}
+
+double Trans::Atan(double arg) {
+	return atan(arg);
+}
+
+
+double Trans::Ln(double arg) {
+	if (arg <= 0) {
+		throw TransException("Invalid argument");
+	}
+	return log(arg);
+}
+
 int main()
 {
 	Trans k;
-	std::cout << tan(M_PI_2) << std::endl;
-	std::cout << k.Tan(M_PI_2*4) << std::endl;
+	std::cout << k.Tan(M_PI/4) << std::endl;
+	std::cout << k.Asin(1) << std::endl;
+	std::cout << k.Acos(0) << std::endl;
+	std::cout << k.Atan(1e+308) << std::endl;
+	std::cout << k.Ln(0) << std::endl;
 }
